@@ -17,10 +17,12 @@ for iter = 1:num_iters
     %       of the cost function (computeCost) and gradient here.
     %
 
-
-
-
-
+    %{  
+        if iter > 1
+            disp(J_history(iter-1));
+        end 
+    %}
+    theta = theta - alpha/m * X'*(X*theta-y);
 
 
     % ============================================================
