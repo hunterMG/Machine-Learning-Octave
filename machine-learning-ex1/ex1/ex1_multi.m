@@ -99,13 +99,34 @@ ylabel('Cost J');
 fprintf('Theta computed from gradient descent: \n');
 fprintf(' %f \n', theta);
 fprintf('\n');
+%-----------------------------test 2
+% Choose some alpha value
+alpha = 0.1;
+num_iters = 100;
+
+% Init Theta and Run Gradient Descent 
+theta = zeros(3, 1);
+[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
+
+% Plot the convergence graph
+hold on;
+plot(1:numel(J_history), J_history, '-r', 'LineWidth', 2);
+
+% Display gradient descent's result
+fprintf('Theta computed from gradient descent: \n');
+fprintf(' %f \n', theta);
+fprintf('\n');
+
+legend('alpha=0.01,iter=400', 'alpha=0.1,iter=100');
+%-----------------------------test 2 end
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
-
+% price = 0; % You should change this
+norm_x = ([1650, 3]-mu)./sigma;
+price = [1,norm_x] * theta;
 
 % ============================================================
 
@@ -149,8 +170,8 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-price = 0; % You should change this
-
+% price = 0; % You should change this
+price = [1,norm_x] * theta;
 
 % ============================================================
 
