@@ -30,9 +30,10 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
+h = sigmoid(X*all_theta');
+for i=1:m(1)
+    p(i) = find(h(i,:) == max(h(i,:)));
+end
 
 
 
