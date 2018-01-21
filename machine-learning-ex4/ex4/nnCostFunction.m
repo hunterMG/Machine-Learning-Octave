@@ -77,7 +77,7 @@ end
 % fprintf('\n h row: %d', size(h, 1));
 % fprintf('\n h col: %d\n', size(h, 2));
 
-J = -1/m*sum(sum(yMat.*log(h) + (1-yMat).*log(1-h))) ;%+ lambda/2/m*sum(nn_params.^2);
+J = -1/m*sum(sum(yMat.*log(h) + (1-yMat).*log(1-h))) + lambda/2/m*(sum(sum(Theta1(:,2:input_layer_size+1).^2))+sum(sum(Theta2(:,2:hidden_layer_size+1).^2)));
 
 % -------------------------------------------------------------
 
