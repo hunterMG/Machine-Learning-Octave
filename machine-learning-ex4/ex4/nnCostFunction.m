@@ -62,23 +62,22 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Part1: cost
+X = [ones(m,1) X]; % X:5000*401 Theta1:25*401 Theta2:10*26
+h = sigmoid(X*Theta1'); % 5000*25
+h = [ones(size(h,1), 1) h]; % 5000*26
+h = sigmoid(h*Theta2'); % 5000*10
+yMat = zeros(size(y,1), num_labels);
+for i = 1:size(y,1)
+    yMat(i, y(i)) = 1;
+end
 
+% fprintf('\n yMat row: %d', size(yMat, 1));
+% fprintf('\n yMat col: %d', size(yMat, 2));
+% fprintf('\n h row: %d', size(h, 1));
+% fprintf('\n h col: %d\n', size(h, 2));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+J = -1/m*sum(sum(yMat.*log(h) + (1-yMat).*log(1-h))) ;%+ lambda/2/m*sum(nn_params.^2);
 
 % -------------------------------------------------------------
 
