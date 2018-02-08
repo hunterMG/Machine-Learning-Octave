@@ -63,12 +63,12 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 % Part1: cost
-X = [ones(m,1) X]; % X:5000*401 Theta1:25*401 Theta2:10*26
-h = sigmoid(X*Theta1'); % 5000*25
+one_X = [ones(m,1) X]; % X:5000*401 Theta1:25*401 Theta2:10*26
+h = sigmoid(one_X*Theta1'); % 5000*25
 h = [ones(size(h,1), 1) h]; % 5000*26
 h = sigmoid(h*Theta2'); % 5000*10
-yMat = zeros(size(y,1), num_labels);
-for i = 1:size(y,1)
+yMat = zeros(m, num_labels);
+for i = 1:m
     yMat(i, y(i)) = 1;
 end
 
@@ -78,6 +78,28 @@ end
 % fprintf('\n h col: %d\n', size(h, 2));
 
 J = -1/m*sum(sum(yMat.*log(h) + (1-yMat).*log(1-h))) + lambda/2/m*(sum(sum(Theta1(:,2:input_layer_size+1).^2))+sum(sum(Theta2(:,2:hidden_layer_size+1).^2)));
+debug = 0;
+% Part 2: backpropagation
+for i = 1:m
+    a1 = one_X(i, :)';  % 401x1
+    z2 = Theta1 * a1;   % 25x1
+    a2 = [1; sigmoid(z2)]; % 26x1
+    z3 = Theta2 * a2;   % 10x1
+    a3 = sigmoid(z3);   % 10x1
+    yVec = ([1:num_labels]==y(i))';
+    delta_3 = a3 - yVec;
+    delta_2 = Theta2' * delta_3 .* (a2 .* (1 - a2)); % 26x1
+    % delta_2 = Theta2' * delta_3 .* [1; sigmoidGradient(z2)]; % 26x1
+    delta_2 = delta_2(2:end);   % 25x1
+    
+    Theta1_grad += delta_2 * a1';
+    Theta2_grad += delta_3 * a2';
+end
+
+Theta1_grad /= m;
+Theta1_grad(:, 2:end) += lambda/m * Theta1(:, 2:end);
+Theta2_grad /= m;
+Theta2_grad(:, 2:end) += lambda/m * Theta2(:, 2:end);
 
 % -------------------------------------------------------------
 
